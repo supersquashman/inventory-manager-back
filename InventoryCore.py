@@ -32,6 +32,10 @@ class Books(Resource):
         booksList = conn.getBooks(userid)
         print(booksList)
         return booksList
+    
+    def post(self,userid,bookData):
+        conn = TinyDBDataAccess.Connection()
+        conn.putBook(userid,bookData)
 
 
 api.add_resource(Books, '/bookable/<userid>/') # Route_1
