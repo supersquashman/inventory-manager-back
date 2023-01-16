@@ -1,3 +1,4 @@
+from re import U
 from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_cors import CORS, cross_origin
@@ -28,7 +29,7 @@ class Potato(Resource):
 class Books(Resource):
     def get(self,userid):
         conn = TinyDBDataAccess.Connection()
-        print("userID:"+userid)
+        print("Book - userID: "+userid)
         booksList = conn.getBooks(userid)
         print(booksList)
         return booksList
@@ -37,8 +38,36 @@ class Books(Resource):
         conn = TinyDBDataAccess.Connection()
         conn.putBook(userid,bookData)
 
+class Alcohol(Resource):
+    def get(self,userid):
+        conn = TinyDBDataAccess.Connection()
+        print("Alcohol - Userid: " + userid)
+        alcoholList = conn.getAlcohol(userid)
+        print(alcoholList)
+        return alcoholList
+
+    def post(self,userid,alcoholdata):
+        conn = TinyDBDataAccess.Connection()
+        conn.putAlcohol(userid,alcoholdata)
+
+class Movies(Resource):
+    def get(self,userid):
+        conn = TinyDBDataAccess.Connection()
+        print("Movie - userid: " + userid)
+        movieList = conn.getMovies(userid)
+        print(movieList)
+        return movieList
+    
+    def post(self,userid,moviedata):
+        conn = TinyDBDataAccess.Connection()
+        conn.putMovies(userid, moviedata)
 
 api.add_resource(Books, '/bookable/<userid>/') # Route_1
+api.add_resource(Books, '/bookable')
+api.add_resource(Movies, '/movies/<userid>/') # Route_2
+api.add_resource(Movies, '/movie')
+api.add_resource(Alcohol, '/alcohol/<userid>/') #Route_3
+api.add_resource(Alcohol, '/alcohol')
 api.add_resource(Potato, '/potato')
 
 

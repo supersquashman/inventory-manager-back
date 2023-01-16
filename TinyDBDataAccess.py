@@ -11,8 +11,6 @@ class Connection:
     def getBooks(self,userID: text):
         bookSearch = Query()
         books = self.db.search((bookSearch['type'] == 'book') & (bookSearch['user'] == int(userID)))
-        #books = self.db.search(bookSearch['user'] == int(userID))
-        #books = self.db.all()
         return books
 
     def putBook(self, userID, data):
