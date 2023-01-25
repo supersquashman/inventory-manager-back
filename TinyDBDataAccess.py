@@ -6,7 +6,8 @@ class Connection:
     db : any
 
     def __init__(self):
-        self.db = TinyDB('~/dev/inventory-manager-back/tdb/db.json', create_dirs=True)
+        self.db = TinyDB('tdb/db.json', create_dirs=True)
+
 
     def getBooks(self,userID: text):
         bookSearch = Query()
@@ -14,7 +15,11 @@ class Connection:
         return books
 
     def putBook(self, userID, data):
-        self.db.insert({'user': userID, 'book': data, 'type':'book', 'borrower':'','owner':userID})
+        self.db.insert({'user': int(userID), 'book': data, 'type':'book', 'borrower':'','owner':int(userID)})
+
+    def removeBook(self, userID, data):
+        bookSearch = Query()
+        self.db.remove((bookSearch['user']==int(userID)) & (bookSearch['book'] == data))
 
     def getMovies(self, userID: text):
         movieSearch = Query()

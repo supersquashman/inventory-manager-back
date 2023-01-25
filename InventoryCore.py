@@ -34,9 +34,25 @@ class Books(Resource):
         print(booksList)
         return booksList
     
-    def post(self,userid,bookData):
+    def post(self,userid):
+        bookData = self.parseParams(request)
+        action = request.args.get('action')
         conn = TinyDBDataAccess.Connection()
-        conn.putBook(userid,bookData)
+
+        if(action == 'add'):
+            conn.putBook(userid,bookData)
+        elif(action == 'remove'):
+            conn.removeBook(userid,bookData)
+
+    def parseParams(self, request):
+        title = request.args.get('title')
+        upc = request.args.get('upc')
+        all_pages = request.args.get('all_pages')
+        current_page = request.args.get('current_page')
+        notes = request.args.get('notes')
+        parsedData = {'title':title,'upc':upc,'all_pages':all_pages,'current_page':current_page,'notes':notes}
+        return parsedData
+
 
 class Alcohol(Resource):
     def get(self,userid):
@@ -63,11 +79,11 @@ class Movies(Resource):
         conn.putMovies(userid, moviedata)
 
 api.add_resource(Books, '/bookable/<userid>/') # Route_1
-api.add_resource(Books, '/bookable')
+#api.add_resource(Books, '/bookable/')
 api.add_resource(Movies, '/movies/<userid>/') # Route_2
-api.add_resource(Movies, '/movie')
+#api.add_resource(Movies, '/movie')
 api.add_resource(Alcohol, '/alcohol/<userid>/') #Route_3
-api.add_resource(Alcohol, '/alcohol')
+#api.add_resource(Alcohol, '/alcohol')
 api.add_resource(Potato, '/potato')
 
 
