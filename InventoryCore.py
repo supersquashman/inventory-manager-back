@@ -12,9 +12,6 @@ CORS(app)
 
 @app.route("/hello")
 
-def hello():
-    return jsonify({'text':'Hello World!'})
-
 class BooksTest(Resource):
     def get(self):
         aNewBook={'title':"hampster ball", 'upc':"28405108",'all_pages':239,'current_page':19,'notes':""}
