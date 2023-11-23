@@ -11,15 +11,25 @@ class Connection:
 
     def getBooks(self,userID: text):
         bookSearch = Query()
+        found_books = {}
         books = self.db.search((bookSearch['type'] == 'book') & (bookSearch['user'] == int(userID)))
+        for book in books:
+            book["book"]["doc_id"]=book.doc_id
+            print(f"Book data looks like {book}")
         return books
 
     def putBook(self, userID, data):
         self.db.insert({'user': int(userID), 'book': data, 'type':'book', 'borrower':'','owner':int(userID)})
 
-    def removeBook(self, userID, data):
+    def removeBook(self, userID, document_id):
         bookSearch = Query()
-        self.db.remove((bookSearch['user']==int(userID)) & (bookSearch['book'] == data))
+        print(f"document_id is {document_id} and type is {type(document_id)}")
+        #test = self.db.search((bookSearch['user']==int(userID)),doc_id = int(document_id))
+        record=self.db.get(doc_id=int(document_id))
+        print(f"Query finds: {record}")
+        if(record["user"]==int(userID)):
+            print("Should be deleted")
+            self.db.remove(doc_ids=[int(document_id)])
 
     def getMovies(self, userID: text):
         movieSearch = Query()
