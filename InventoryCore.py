@@ -34,7 +34,7 @@ class Books(Resource):
     def post(self,userid):
         bookData = self.parseParams(request)
         conn = TinyDBDataAccess.Connection()
-        conn.putBook(userid,bookData))
+        conn.putBook(userid,bookData)
         
     def put(self,userid,params):
         pass
